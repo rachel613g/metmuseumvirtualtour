@@ -1,3 +1,6 @@
+package gutmann.mettour;
+
+import gutmann.mettour.*;
 import org.junit.Test;
 import retrofit2.Response;
 

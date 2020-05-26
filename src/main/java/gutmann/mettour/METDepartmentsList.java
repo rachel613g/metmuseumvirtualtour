@@ -1,4 +1,5 @@
-import java.util.HashMap;
+package gutmann.mettour;
+
 import java.util.List;
 
 public class METDepartmentsList

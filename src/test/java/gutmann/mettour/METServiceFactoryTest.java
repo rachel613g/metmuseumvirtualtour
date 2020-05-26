@@ -1,3 +1,7 @@
+package gutmann.mettour;
+
+import gutmann.mettour.METService;
+import gutmann.mettour.METServiceFactory;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
