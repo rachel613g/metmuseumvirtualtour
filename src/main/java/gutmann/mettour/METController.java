@@ -13,8 +13,7 @@ public class METController
     {
         this.service = service;
         this.view = view;
-        //instantiate the first controller
-        METControllerDepartmentList controllerDepartmentList = new METControllerDepartmentList();
+
     }
 
     class METControllerDepartmentList implements Callback<METDepartmentsList>
