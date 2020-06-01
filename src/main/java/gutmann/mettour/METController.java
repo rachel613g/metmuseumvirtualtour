@@ -4,12 +4,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.net.MalformedURLException;
+
 public class METController
 {
     METService service;
-    METObjectDataView view;
+    METObjectImageView view;
 
-    public METController(METService service, METObjectDataView view)
+    public METController(METService service, METObjectImageView view)
     {
         this.service = service;
         this.view = view;
@@ -83,6 +85,13 @@ public class METController
             possible todo
             set frame variables an necessary.
              */
+            try
+            {
+                view.setImage(metObjectData.primaryImage);
+            } catch (MalformedURLException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         @Override

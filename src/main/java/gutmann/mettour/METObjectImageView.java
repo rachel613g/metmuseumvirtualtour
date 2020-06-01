@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class METObjectDataView
+public class METObjectImageView
 {
     ImageIcon imageIcon;
 
