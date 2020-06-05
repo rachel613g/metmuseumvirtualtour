@@ -22,14 +22,15 @@ public class METController
 
     JComboBox<String> displayNamesComboBox;
 
-    public METController(METService service, METObjectImageView objectImageView)
+    public METController(METService service, METObjectImageView objectImageView, JComboBox<String> displayNamesComboBox)
     {
         this.service = service;
         this.objectImageView = objectImageView;
+        this.displayNamesComboBox = displayNamesComboBox;
         departmentsCallback = new DepartmentsCallback();
         objectIdsCallback = new ObjectIdsCallback();
         objectDataCallback = new ObjectDataCallback();
-        displayNamesComboBox = new JComboBox<>();
+
     }
 
     public JComboBox<String> getDisplayNamesComboBox()
@@ -50,13 +51,6 @@ public class METController
         {
             departments = response.body();
             populateJComboBox();
-            setJComboBoxSettings();
-        }
-
-        private void setJComboBoxSettings()
-        {
-            displayNamesComboBox.setSelectedIndex(0);
-            displayNamesComboBox.setPreferredSize(new Dimension(200,200));
         }
 
         private void populateJComboBox()

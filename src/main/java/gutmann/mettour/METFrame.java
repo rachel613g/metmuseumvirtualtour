@@ -11,6 +11,7 @@ public class METFrame extends JFrame
     METController controller;
 
     JFrame ObjectDataFrame;
+    JComboBox<String> displayNamesJComboBox;
     JPanel comboPanel;
 
     public METFrame()
@@ -22,11 +23,14 @@ public class METFrame extends JFrame
         factory = new METServiceFactory();
         service = factory.getInstance();
         objectImageView = new METObjectImageView();
-        controller = new METController(service, objectImageView);
+        displayNamesJComboBox = new JComboBox<>();
+
+        displayNamesJComboBox.setPreferredSize(new Dimension(200,200));
+        controller = new METController(service, objectImageView, displayNamesJComboBox);
 
         controller.departmentsCallback.requestData();
-
-        comboPanel.add(controller.getDisplayNamesComboBox());
+        comboPanel.add(displayNamesJComboBox);
+        displayNamesJComboBox.setSelectedIndex(0);
         add(comboPanel);
     }
 
