@@ -12,8 +12,6 @@ public class METController
 {
     private METService service;
     private METObjectImageView objectImageView;
-    //these aren't private because I test them but maybe they don't have to be
-    // if callback classes are private...
     DepartmentsCallback departmentsCallback;
     ObjectIdsCallback objectIdsCallback;
     ObjectDataCallback objectDataCallback;
@@ -39,7 +37,7 @@ public class METController
         return displayNamesComboBox;
     }
 
-    private class DepartmentsCallback implements Callback<METDepartments>
+    class DepartmentsCallback implements Callback<METDepartments>
     {
 
         public void requestData()
@@ -58,12 +56,12 @@ public class METController
         private void setJComboBoxSettings()
         {
             displayNamesComboBox.setSelectedIndex(0);
-            displayNamesComboBox.setPreferredSize(new Dimension(200, 200));
+            displayNamesComboBox.setPreferredSize(new Dimension(200,200));
         }
 
         private void populateJComboBox()
         {
-            for (String displayName : departments.getArrayOfDisplayNames())
+            for(String displayName: departments.getArrayOfDisplayNames())
             {
                 displayNamesComboBox.addItem(displayName);
 
@@ -80,7 +78,7 @@ public class METController
 
     }
 
-    private class ObjectIdsCallback implements Callback<METObjectIds>
+    class ObjectIdsCallback implements Callback<METObjectIds>
     {
         public void requestData(int departmentId)
         {
@@ -102,7 +100,7 @@ public class METController
         }
     }
 
-    private class ObjectDataCallback implements Callback<METObjectData>
+    class ObjectDataCallback implements Callback<METObjectData>
     {
 
 
