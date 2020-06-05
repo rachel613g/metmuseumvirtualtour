@@ -7,8 +7,4 @@ import static org.junit.Assert.*;
 public class ObjectDataCallbackTest
 {
 
-    @Test
-    public void getArrayofDisplayNames()
-    {
-    }
 }
