@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
-public class DepartmentsCallback
+public class DepartmentsCallbackTest
 {
     @Test
     public void requestData()
@@ -42,7 +42,7 @@ public class DepartmentsCallback
         METObjectImageView objectImageView = Mockito.mock(METObjectImageView.class);
         METController controller = new METController(service, objectImageView);
         METController.DepartmentsCallback departmentsCallback = controller.departmentsCallback;
-        JComboBox<String> comboBox = departmentsCallback.displayNamesComboBox;
+        //JComboBox<String> comboBox = departmentsCallback.displayNamesComboBox;
         METDepartments departments = Mockito.mock(METDepartments.class);
 
         Call<METDepartments> call = Mockito.mock(Call.class);

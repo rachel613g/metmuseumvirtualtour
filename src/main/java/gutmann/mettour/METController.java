@@ -37,7 +37,7 @@ public class METController
         public void onResponse(Call<METDepartments> call, Response<METDepartments> response)
         {
             METDepartments departmentList = response.body();
-            displayNamesComboBox = new JComboBox<>(departmentList.getArrayofDisplayNames());
+            displayNamesComboBox = new JComboBox<>(departmentList.getArrayOfDisplayNames());
         }
 
         @Override
