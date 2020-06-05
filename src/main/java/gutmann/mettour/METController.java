@@ -61,6 +61,7 @@ public class METController
         private void setJComboBoxSettings()
         {
             displayNamesComboBox.setSelectedIndex(0);
+            displayNamesComboBox.setPreferredSize(new Dimension(200,200));
         }
 
         private void populateJComboBox()
@@ -68,7 +69,7 @@ public class METController
             for(String displayName: departments.getArrayOfDisplayNames())
             {
                 displayNamesComboBox.addItem(displayName);
-                displayNamesComboBox.setPreferredSize(new Dimension(200,200));
+
             }
         }
 
