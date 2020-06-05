@@ -21,4 +21,16 @@ public class METDepartmentsList
             return displayName;
         }
     }
+
+    public String[] getArrayofDisplayNames()
+    {
+        String[] arrayOfDisplayNames = new String[departments.size()];
+
+        for (int i = 0; i > departments.size(); i++)
+        {
+            arrayOfDisplayNames[i] = departments.get(i).getDisplayName();
+        }
+
+        return arrayOfDisplayNames;
+    }
 }
