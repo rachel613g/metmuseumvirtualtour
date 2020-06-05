@@ -5,15 +5,27 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import javax.swing.*;
+import java.awt.*;
 import java.net.MalformedURLException;
 
 public class METController
 {
-    METService service;
-    METObjectImageView objectImageView;
+    private METService service;
+    private METObjectImageView objectImageView;
+    //these aren't private because I test them
+    /*
+    todo
+    fix tests so can make them private.
+     */
     DepartmentsCallback departmentsCallback;
     ObjectIdsCallback objectIdsCallback;
     ObjectDataCallback objectDataCallback;
+
+    private METDepartments departments;
+    private METObjectIds metObjectIds;
+    private METObjectData metObjectData;
+
+    JComboBox<String> displayNamesComboBox;
 
     public METController(METService service, METObjectImageView objectImageView)
     {
@@ -22,29 +34,52 @@ public class METController
         departmentsCallback = new DepartmentsCallback();
         objectIdsCallback = new ObjectIdsCallback();
         objectDataCallback = new ObjectDataCallback();
+        displayNamesComboBox = new JComboBox<>();
+    }
+
+    public JComboBox<String> getDisplayNamesComboBox()
+    {
+        return displayNamesComboBox;
     }
 
     class DepartmentsCallback implements Callback<METDepartments>
     {
-        JComboBox<String> displayNamesComboBox;
-        public void requestData(JComboBox<String> displayNamesComboBox)
+
+        public void requestData()
         {
             service.getListOfDepartments().enqueue(this);
-            this.displayNamesComboBox = displayNamesComboBox;
         }
 
         @Override
         public void onResponse(Call<METDepartments> call, Response<METDepartments> response)
         {
-            METDepartments departmentList = response.body();
-            displayNamesComboBox = new JComboBox<>(departmentList.getArrayOfDisplayNames());
+            departments = response.body();
+            populateJComboBox();
+            setJComboBoxSettings();
         }
+
+        private void setJComboBoxSettings()
+        {
+            displayNamesComboBox.setSelectedIndex(0);
+        }
+
+        private void populateJComboBox()
+        {
+            for(String displayName: departments.getArrayOfDisplayNames())
+            {
+                displayNamesComboBox.addItem(displayName);
+                displayNamesComboBox.setPreferredSize(new Dimension(200,200));
+            }
+        }
+
 
         @Override
         public void onFailure(Call<METDepartments> call, Throwable t)
         {
             t.printStackTrace();
         }
+
+
     }
 
     class ObjectIdsCallback implements Callback<METObjectIds>
@@ -57,7 +92,7 @@ public class METController
         @Override
         public void onResponse(Call<METObjectIds> call, Response<METObjectIds> response)
         {
-            METObjectIds metObjectIds = response.body();
+            metObjectIds = response.body();
 
             objectDataCallback.requestData(metObjectIds.objectIDs.get(0));
         }
@@ -81,7 +116,7 @@ public class METController
         @Override
         public void onResponse(Call<METObjectData> call, Response<METObjectData> response)
         {
-            METObjectData metObjectData = response.body();
+            metObjectData = response.body();
             /*
             todo
             set frame variables an necessary.
