@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 public interface METService
 {
     @GET("departments")
-    Call<METDepartmentsList> getListOfDepartments();
+    Call<METDepartments> getListOfDepartments();
 
     @GET("objects?departmentIds=")
     Call<METObjectIds> getObjectIdsInDepartment(@Query("departmentId")int departmentId);

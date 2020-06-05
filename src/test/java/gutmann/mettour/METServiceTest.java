@@ -1,6 +1,5 @@
 package gutmann.mettour;
 
-import gutmann.mettour.*;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -19,12 +18,12 @@ public class METServiceTest
         METService service = factory.getInstance();
 
         //when
-        Response<METDepartmentsList> response = service.getListOfDepartments().execute();
-        METDepartmentsList departmentsList = response.body();
+        Response<METDepartments> response = service.getListOfDepartments().execute();
+        METDepartments departmentsList = response.body();
 
         //then
         assertNotNull(departmentsList);
-        assertNotNull(departmentsList.departments);
+        assertNotNull(departmentsList.departmentList);
     }
 
     @Test

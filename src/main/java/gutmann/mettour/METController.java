@@ -4,43 +4,50 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.swing.*;
 import java.net.MalformedURLException;
 
 public class METController
 {
     METService service;
-    METObjectImageView view;
+    METObjectImageView objectImageView;
+    DepartmentsCallback departmentsCallback;
+    ObjectIdsCallback objectIdsCallback;
+    ObjectDataCallback objectDataCallback;
 
-    public METController(METService service, METObjectImageView view)
+    public METController(METService service, METObjectImageView objectImageView)
     {
         this.service = service;
-        this.view = view;
+        this.objectImageView = objectImageView;
+        departmentsCallback = new DepartmentsCallback();
+        objectIdsCallback = new ObjectIdsCallback();
+        objectDataCallback = new ObjectDataCallback();
     }
 
-    class METControllerDepartmentList implements Callback<METDepartmentsList>
+    class DepartmentsCallback implements Callback<METDepartments>
     {
-
-        public void requestData()
+        JComboBox<String> displayNamesComboBox;
+        public void requestData(JComboBox<String> displayNamesComboBox)
         {
             service.getListOfDepartments().enqueue(this);
+            this.displayNamesComboBox = displayNamesComboBox;
         }
 
         @Override
-        public void onResponse(Call<METDepartmentsList> call, Response<METDepartmentsList> response)
+        public void onResponse(Call<METDepartments> call, Response<METDepartments> response)
         {
-            /*todo
-            save to METFrame components. create them first.
-            **/
+            METDepartments departmentList = response.body();
+            displayNamesComboBox = new JComboBox<>(departmentList.getArrayofDisplayNames());
         }
 
         @Override
-        public void onFailure(Call<METDepartmentsList> call, Throwable t)
+        public void onFailure(Call<METDepartments> call, Throwable t)
         {
             t.printStackTrace();
         }
     }
 
-    class METControllerObjectIds implements Callback<METObjectIds>
+    class ObjectIdsCallback implements Callback<METObjectIds>
     {
         public void requestData(int departmentId)
         {
@@ -51,7 +58,8 @@ public class METController
         public void onResponse(Call<METObjectIds> call, Response<METObjectIds> response)
         {
             METObjectIds metObjectIds = response.body();
-            METControllerObjectData metControllerObjectData = new METControllerObjectData(metObjectIds.objectIDs.get(0));
+
+            objectDataCallback.requestData(metObjectIds.objectIDs.get(0));
         }
 
         @Override
@@ -61,16 +69,9 @@ public class METController
         }
     }
 
-    class METControllerObjectData implements Callback<METObjectData>
+    class ObjectDataCallback implements Callback<METObjectData>
     {
-        //this constructor just calls the requestData method.
-        // It wasn't necessary for me to make an arg constructor.
-        //I could of just instantiated METControllerObjectData and then
-        //called the requestData method on the next line
-        public METControllerObjectData(int objectId)
-        {
-            requestData(objectId);
-        }
+
 
         public void requestData(int objectId)
         {
@@ -82,12 +83,12 @@ public class METController
         {
             METObjectData metObjectData = response.body();
             /*
-            possible todo
+            todo
             set frame variables an necessary.
              */
             try
             {
-                view.setImage(metObjectData.primaryImage);
+                objectImageView.setImage(metObjectData.primaryImage);
             } catch (MalformedURLException e)
             {
                 e.printStackTrace();
