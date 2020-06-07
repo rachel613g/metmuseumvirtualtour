@@ -25,9 +25,9 @@ public class METDepartmentsTest
         department3.departmentId = 1;
         department3.displayName = "Even More Art";
 
-        departments.departmentList.add(department1);
-        departments.departmentList.add(department2);
-        departments.departmentList.add(department3);
+        departments.departments.add(department1);
+        departments.departments.add(department2);
+        departments.departments.add(department3);
 
         //when
         String [] returnArray = departments.getArrayOfDisplayNames();

@@ -9,29 +9,39 @@ public class METFrame extends JFrame
     METService service;
     METObjectImageView objectImageView;
     METController controller;
-
-    JFrame ObjectDataFrame;
-    JComboBox<String> displayNamesJComboBox;
+    METDepartments.Department selectDepartment;
+    JComboBox<METDepartments.Department> departmentJComboBox;
     JPanel comboPanel;
 
     public METFrame()
     {
         setSize(new Dimension(500, 300));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
 
         factory = new METServiceFactory();
         service = factory.getInstance();
         objectImageView = new METObjectImageView();
-        displayNamesJComboBox = new JComboBox<>();
+        departmentJComboBox = new JComboBox<>();
+        departmentJComboBox.setPreferredSize(new Dimension(200,100));
 
-        displayNamesJComboBox.setPreferredSize(new Dimension(200,200));
-        controller = new METController(service, objectImageView, displayNamesJComboBox);
+        controller = new METController(service, objectImageView, departmentJComboBox);
 
+        //add departmentsJComboBox to frame
         controller.departmentsCallback.requestData();
-        comboPanel.add(displayNamesJComboBox);
-        displayNamesJComboBox.setSelectedIndex(0);
+        comboPanel = new JPanel();
+        comboPanel.add(departmentJComboBox);
         add(comboPanel);
+
+        //select department actionListener
+        departmentJComboBox.addActionListener(actionEvent -> getSelectedDepartment());
+
+    }
+
+    private void getSelectedDepartment()
+    {
+        selectDepartment = (METDepartments.Department) departmentJComboBox.getSelectedItem();
+        controller.objectIdsCallback.requestData(selectDepartment.departmentId);
     }
 
     public static void main(String[] args)

@@ -23,7 +23,7 @@ public class METServiceTest
 
         //then
         assertNotNull(departmentsList);
-        assertNotNull(departmentsList.departmentList);
+        assertNotNull(departmentsList.departments);
     }
 
     @Test

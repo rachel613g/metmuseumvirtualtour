@@ -1,11 +1,10 @@
 package gutmann.mettour;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class METDepartments
 {
-    ArrayList<Department> departmentList = new ArrayList<>();
+    List<Department> departments;
 
     public class Department
     {
@@ -21,15 +20,22 @@ public class METDepartments
         {
             return displayName;
         }
+
+        @Override
+        public String toString()
+        {
+            return displayName;
+        }
     }
+
 
     public String[] getArrayOfDisplayNames()
     {
-        String[] arrayOfDisplayNames = new String[departmentList.size()];
+        String[] arrayOfDisplayNames = new String[departments.size()];
 
-        for (int i = 0; i < departmentList.size(); i++)
+        for (int i = 0; i < departments.size(); i++)
         {
-            arrayOfDisplayNames[i] = departmentList.get(i).getDisplayName();
+            arrayOfDisplayNames[i] = departments.get(i).getDisplayName();
         }
         return arrayOfDisplayNames;
     }

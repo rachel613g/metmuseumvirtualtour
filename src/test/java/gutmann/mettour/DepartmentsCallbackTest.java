@@ -18,7 +18,7 @@ public class DepartmentsCallbackTest
         //given
         METService service = Mockito.mock(METService.class);
         METObjectImageView objectImageView = Mockito.mock(METObjectImageView.class);
-        JComboBox<String> comboBox = Mockito.mock(JComboBox.class);
+        JComboBox<METDepartments.Department> comboBox = Mockito.mock(JComboBox.class);
         METController controller = new METController(service, objectImageView,comboBox);
         METController.DepartmentsCallback departmentsCallback = controller.departmentsCallback;
 
@@ -41,7 +41,7 @@ public class DepartmentsCallbackTest
         //an instantiated controller
         METService service = Mockito.mock(METService.class);
         METObjectImageView objectImageView = Mockito.mock(METObjectImageView.class);
-        JComboBox<String> comboBox = Mockito.mock(JComboBox.class);
+        JComboBox<METDepartments.Department> comboBox = Mockito.mock(JComboBox.class);
         METController controller = new METController(service, objectImageView, comboBox);
         METController.DepartmentsCallback departmentsCallback = controller.departmentsCallback;
         //a mocked METDepartment class
@@ -61,6 +61,6 @@ public class DepartmentsCallbackTest
 
         //then
         verify(departments).getArrayOfDisplayNames();
-        assertNotNull(controller.displayNamesComboBox);
+        assertNotNull(controller.departmentComboBox);
     }
 }

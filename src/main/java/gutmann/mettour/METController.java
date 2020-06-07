@@ -5,8 +5,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import javax.swing.*;
-import java.awt.*;
 import java.net.MalformedURLException;
+import java.util.List;
 
 public class METController
 {
@@ -16,26 +16,25 @@ public class METController
     ObjectIdsCallback objectIdsCallback;
     ObjectDataCallback objectDataCallback;
 
-    private METDepartments departments;
     private METObjectIds metObjectIds;
     private METObjectData metObjectData;
 
-    JComboBox<String> displayNamesComboBox;
+    JComboBox<METDepartments.Department> departmentComboBox;
 
-    public METController(METService service, METObjectImageView objectImageView, JComboBox<String> displayNamesComboBox)
+    public METController(METService service, METObjectImageView objectImageView,
+                         JComboBox<METDepartments.Department> departmentComboBox)
     {
         this.service = service;
         this.objectImageView = objectImageView;
-        this.displayNamesComboBox = displayNamesComboBox;
+        this.departmentComboBox = departmentComboBox;
         departmentsCallback = new DepartmentsCallback();
         objectIdsCallback = new ObjectIdsCallback();
         objectDataCallback = new ObjectDataCallback();
-
     }
 
-    public JComboBox<String> getDisplayNamesComboBox()
+    public JComboBox<METDepartments.Department> getDepartmentComboBox()
     {
-        return displayNamesComboBox;
+        return departmentComboBox;
     }
 
     class DepartmentsCallback implements Callback<METDepartments>
@@ -49,16 +48,15 @@ public class METController
         @Override
         public void onResponse(Call<METDepartments> call, Response<METDepartments> response)
         {
-            departments = response.body();
-            populateJComboBox();
+            List<METDepartments.Department> departmentList= response.body().departments;
+            populateJComboBox(departmentList);
         }
 
-        private void populateJComboBox()
+        private void populateJComboBox(List<METDepartments.Department> departmentList)
         {
-            for(String displayName: departments.getArrayOfDisplayNames())
+            for(METDepartments.Department displayDepartment: departmentList)
             {
-                displayNamesComboBox.addItem(displayName);
-
+                departmentComboBox.addItem(displayDepartment);
             }
         }
 
@@ -68,7 +66,6 @@ public class METController
         {
             t.printStackTrace();
         }
-
 
     }
 
