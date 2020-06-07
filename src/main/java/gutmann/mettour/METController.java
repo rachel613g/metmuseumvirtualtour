@@ -118,9 +118,12 @@ public class METController
     class ObjectDataCallback implements Callback<METObjectData>
     {
 
+        private int objectId;
+
         public void requestData(int objectId)
         {
-            service.getMetaData(objectId).enqueue(this);
+            this.objectId = objectId;
+            service.getMetaData(this.objectId).enqueue(this);
         }
 
         @Override
@@ -128,30 +131,32 @@ public class METController
         {
             metObjectData = response.body();
             displayObjectData();
+            displayObjectImage();
         }
 
-        private void displayObjectData()
+        private void displayObjectImage()
         {
-            //set image
+            //
             try
             {
                 //set imageView
                 objectImageView.setImage(metObjectData.getPrimaryImage());
                 //set imageLabel
                 objectImageLabel.setIcon(objectImageView.getImageIcon());
-            } catch (MalformedURLException | NoImageException e)
+            } catch (NoImageException | MalformedURLException e)
             {
                 objectImageLabel.setText(e.getMessage());
             }
+        }
 
+        private void displayObjectData()
+        {
             //set other data
-            objectIdLabel.setText("Object Id: " + Integer.toString(metObjectData.getObjectID()));
+            objectIdLabel.setText("Object Id: " + Integer.toString(objectId));
             objectTitleLabel.setText(metObjectData.getTitle());
-            objectCultureLabel.setText("Culture" + metObjectData.getCulture());
+            objectCultureLabel.setText("Culture: " + metObjectData.getCulture());
             objectArtistLabel.setText("Artist: " + metObjectData.getArtistDisplayName());
             objectDateLabel.setText("Historical Data: "+ metObjectData.getObjectDate());
-
-
         }
 
         @Override

@@ -10,6 +10,7 @@ public class METFrame extends JFrame
     JComboBox<METDepartments.Department> departmentJComboBox;
     JPanel jComboBoxPanel;
     JPanel objectDataPanel;
+    JButton selectDepartmentButton;
     JLabel objectImageLabel;
     JLabel objectIdLabel;
     JLabel objectTitleLabel;
@@ -30,11 +31,13 @@ public class METFrame extends JFrame
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        jComboBoxPanel = new JPanel();
+        jComboBoxPanel = new JPanel(new FlowLayout());
         departmentJComboBox = new JComboBox<>();
-        departmentJComboBox.setPreferredSize(new Dimension(200,100));
+        departmentJComboBox.setPreferredSize(new Dimension(200,50));
         objectDataPanel = new JPanel();
-
+        objectDataPanel.setPreferredSize(new Dimension(500, 400));
+        objectDataPanel.setLayout(new BoxLayout(objectDataPanel, BoxLayout.Y_AXIS));
+        selectDepartmentButton = new JButton("Select Department");
         objectImageLabel = new JLabel();
         objectIdLabel = new JLabel();
         objectTitleLabel = new JLabel();
@@ -43,16 +46,15 @@ public class METFrame extends JFrame
         objectDateLabel = new JLabel();
 
         //set labels and panels to the frame
-        add(jComboBoxPanel, BorderLayout.NORTH);
         jComboBoxPanel.add(departmentJComboBox);
+        jComboBoxPanel.add(selectDepartmentButton);
+        add(jComboBoxPanel, BorderLayout.NORTH);
         add(objectImageLabel, BorderLayout.CENTER);
-        add(objectDataPanel, BorderLayout.EAST);
-        objectDataPanel.setPreferredSize(new Dimension(300, 300));
-        objectDataPanel.setLayout(new BoxLayout(objectDataPanel, BoxLayout.Y_AXIS));
         objectDataPanel.add(objectTitleLabel);
         objectDataPanel.add(objectCultureLabel);
         objectDataPanel.add(objectArtistLabel);
         objectDataPanel.add(objectDateLabel);
+        add(objectDataPanel, BorderLayout.EAST);
         add(objectIdLabel, BorderLayout.WEST);
 
         factory = new METServiceFactory();
@@ -60,7 +62,8 @@ public class METFrame extends JFrame
         objectImageView = new METObjectImageView();
 
         controller = new METController(service, objectImageView, departmentJComboBox,
-                objectImageLabel, objectIdLabel, objectIdLabel, objectCultureLabel, objectArtistLabel, objectDateLabel);
+                objectImageLabel, objectIdLabel, objectTitleLabel, objectCultureLabel,
+                objectArtistLabel, objectDateLabel);
 
         //add departmentsJComboBox to frame
         controller.departmentsCallback.requestData();
@@ -69,7 +72,7 @@ public class METFrame extends JFrame
 
 
         //select department actionListener
-        departmentJComboBox.addActionListener(actionEvent -> getSelectedDepartment());
+        selectDepartmentButton.addActionListener(actionEvent -> getSelectedDepartment());
 
         //display Object Data
 

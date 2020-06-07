@@ -7,6 +7,7 @@ public class METObjectData
     private String title;
     private String culture;
     private String artistDisplayName;
+    private String objectDate;
 
     public int getObjectID()
     {
@@ -37,6 +38,4 @@ public class METObjectData
     {
         return objectDate;
     }
-
-    private String objectDate;
 }
