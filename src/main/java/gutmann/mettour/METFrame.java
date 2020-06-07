@@ -96,7 +96,8 @@ public class METFrame extends JFrame
     private void getSelectedDepartment()
     {
         selectDepartment = (METDepartments.Department) departmentJComboBox.getSelectedItem();
-        controller.objectIdsCallback.requestData(selectDepartment.departmentId);
+        int departmentId = selectDepartment.departmentId;
+        controller.objectIdsCallback.requestData(departmentId);
     }
 
 

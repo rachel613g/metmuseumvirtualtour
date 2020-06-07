@@ -8,7 +8,7 @@ public class METServiceFactory
     public METService getInstance()
     {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://collectionapi.metmuseum.org/public/collection/v1/")
+                .baseUrl("https://collectionapi.metmuseum.org/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         METService service = retrofit.create(METService.class);

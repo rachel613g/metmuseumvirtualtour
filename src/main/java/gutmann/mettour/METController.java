@@ -81,7 +81,7 @@ public class METController
         @Override
         public void onResponse(Call<METDepartments> call, Response<METDepartments> response)
         {
-            ArrayList<METDepartments.Department> departmentList = response.body().departments;
+            List<METDepartments.Department> departmentList = response.body().departments;
             populateJComboBox(departmentList);
         }
 

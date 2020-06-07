@@ -7,12 +7,12 @@ import retrofit2.http.Query;
 
 public interface METService
 {
-    @GET("departments")
+    @GET("public/collection/v1/departments")
     Call<METDepartments> getListOfDepartments();
 
-    @GET("objects?")
+    @GET("public/collection/v1/objects?")
     Call<METObjectIds> getObjectIdsInDepartment(@Query("departmentId")int departmentId);
 
-    @GET("objects/{objectId}")
+    @GET("public/collection/v1/objects/{objectId}")
     Call<METObjectData> getMetaData(@Path("objectId") int objectId);
 }
