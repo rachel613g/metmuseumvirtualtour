@@ -1,10 +1,11 @@
 package gutmann.mettour;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class METDepartments
 {
-    List<Department> departments;
+    ArrayList<Department> departments;
 
     public class Department
     {

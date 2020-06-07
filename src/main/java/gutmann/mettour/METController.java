@@ -5,6 +5,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import javax.swing.*;
+import java.awt.*;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,18 +15,19 @@ public class METController
     DepartmentsCallback departmentsCallback;
     ObjectIdsCallback objectIdsCallback;
     ObjectDataCallback objectDataCallback;
+    private METFrame frame;
     private METService service;
-    private METObjectImageView objectImageView;
+    private METObjectImageIconView objectImageView;
     private JLabel objectImageLabel;
+    private JLabel noImageLabel;
     private JLabel objectIdLabel;
     private JLabel objectCultureLabel;
     private JLabel objectTitleLabel;
     private JLabel objectArtistLabel;
     private JLabel objectDateLabel;
 
-    private int counter = 0;
+    private int counter;
     private ArrayList<Integer> objectIdArrayList;
-    private METObjectData metObjectData;
     private String objectImageURL;
     private String objectTitleString;
     private String objectCultureString;
@@ -34,16 +36,18 @@ public class METController
 
     JComboBox<METDepartments.Department> departmentComboBox;
 
-    public METController(METService service, METObjectImageView objectImageView,
+    public METController(METFrame frame, METService service, METObjectImageIconView objectImageView,
                          JComboBox<METDepartments.Department> departmentComboBox,
-                         JLabel objectImageLabel, JLabel objectIdLabel,
-                         JLabel objectTitleLabel,JLabel objectCultureLabel,
+                         JLabel noImageLabel, JLabel objectImageLabel, JLabel objectIdLabel,
+                         JLabel objectTitleLabel, JLabel objectCultureLabel,
                          JLabel objectArtistLabel, JLabel objectDateLabel)
     {
+        this.frame = frame;
         this.service = service;
         this.objectImageView = objectImageView;
         this.departmentComboBox = departmentComboBox;
         this.objectImageLabel = objectImageLabel;
+        this.noImageLabel = noImageLabel;
         this.objectIdLabel = objectIdLabel;
         this.objectTitleLabel = objectTitleLabel;
         this.objectCultureLabel = objectCultureLabel;
@@ -65,6 +69,7 @@ public class METController
         return objectIdArrayList;
     }
 
+
     class DepartmentsCallback implements Callback<METDepartments>
     {
 
@@ -76,11 +81,11 @@ public class METController
         @Override
         public void onResponse(Call<METDepartments> call, Response<METDepartments> response)
         {
-            List<METDepartments.Department> departmentList = response.body().departments;
+            ArrayList<METDepartments.Department> departmentList = response.body().departments;
             populateJComboBox(departmentList);
         }
 
-        private void populateJComboBox(List<METDepartments.Department> departmentList)
+        protected void populateJComboBox(List<METDepartments.Department> departmentList)
         {
             for (METDepartments.Department displayDepartment : departmentList)
             {
@@ -111,6 +116,7 @@ public class METController
             objectIdArrayList = response.body().objectIDs;
             //call the first object
             objectDataCallback.requestData(objectIdArrayList.get(0));
+            counter = 0;
         }
 
         @Override
@@ -141,20 +147,24 @@ public class METController
             objectDateString = response.body().getObjectDate();
             displayObjectData();
             displayObjectImage();
+            frame.setArrowPanel();
         }
 
         private void displayObjectImage()
         {
-            //
             try
             {
+                objectImageLabel.setText("");
                 //set imageView
-                objectImageView.setImage(objectImageURL);
-                //set imageLabel
+                objectImageView.setImage(objectImageURL, objectImageLabel.getWidth(), objectImageLabel.getHeight());
+                //set imageLabel on JFrame
                 objectImageLabel.setIcon(objectImageView.getImageIcon());
+                objectImageLabel.setPreferredSize(new Dimension(objectImageView.getIconWidth(), objectImageView.getIconHeight()));
             } catch (NoImageException | MalformedURLException e)
             {
-                objectImageLabel.setText(e.getMessage());
+                e.getMessage();
+                e.printStackTrace();
+                noImageLabel.setText("No image to display.");
             }
         }
 
@@ -166,6 +176,17 @@ public class METController
             objectCultureLabel.setText("Culture: " + objectCultureString);
             objectArtistLabel.setText("Artist: " + objectArtistString);
             objectDateLabel.setText("Historical Data: "+ objectDateString);
+        }
+
+        public void nextObject()
+        {
+            counter++;
+            this.requestData(objectIdArrayList.get(counter));
+        }
+        public void previousObject()
+        {
+            counter--;
+            this.requestData(objectIdArrayList.get(counter));
         }
 
         @Override
