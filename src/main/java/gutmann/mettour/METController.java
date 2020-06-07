@@ -11,23 +11,40 @@ import java.util.List;
 
 public class METController
 {
-    private METService service;
-    private METObjectImageView objectImageView;
     DepartmentsCallback departmentsCallback;
     ObjectIdsCallback objectIdsCallback;
     ObjectDataCallback objectDataCallback;
+    private METService service;
+    private METObjectImageView objectImageView;
+    private JLabel objectImageLabel;
+    private JLabel objectIdLabel;
+    private JLabel objectCultureLabel;
+    private JLabel objectTitleLabel;
+    private JLabel objectArtistLabel;
+    private JLabel objectDateLabel;
 
+    private int counter = 0;
     private ArrayList<Integer> objectIdArrayList;
     private METObjectData metObjectData;
 
     JComboBox<METDepartments.Department> departmentComboBox;
 
     public METController(METService service, METObjectImageView objectImageView,
-                         JComboBox<METDepartments.Department> departmentComboBox)
+                         JComboBox<METDepartments.Department> departmentComboBox,
+                         JLabel objectImageLabel, JLabel objectIdLabel,
+                         JLabel objectTitleLabel,JLabel objectCultureLabel,
+                         JLabel objectArtistLabel, JLabel objectDateLabel)
     {
         this.service = service;
         this.objectImageView = objectImageView;
         this.departmentComboBox = departmentComboBox;
+        this.objectImageLabel = objectImageLabel;
+        this.objectIdLabel = objectIdLabel;
+        this.objectTitleLabel = objectTitleLabel;
+        this.objectCultureLabel = objectCultureLabel;
+        this.objectArtistLabel = objectArtistLabel;
+        this.objectDateLabel = objectDateLabel;
+
         departmentsCallback = new DepartmentsCallback();
         objectIdsCallback = new ObjectIdsCallback();
         objectDataCallback = new ObjectDataCallback();
@@ -36,6 +53,11 @@ public class METController
     public JComboBox<METDepartments.Department> getDepartmentComboBox()
     {
         return departmentComboBox;
+    }
+
+    public ArrayList<Integer> getObjectIdArrayList()
+    {
+        return objectIdArrayList;
     }
 
     class DepartmentsCallback implements Callback<METDepartments>
@@ -49,18 +71,17 @@ public class METController
         @Override
         public void onResponse(Call<METDepartments> call, Response<METDepartments> response)
         {
-            List<METDepartments.Department> departmentList= response.body().departments;
+            List<METDepartments.Department> departmentList = response.body().departments;
             populateJComboBox(departmentList);
         }
 
         private void populateJComboBox(List<METDepartments.Department> departmentList)
         {
-            for(METDepartments.Department displayDepartment: departmentList)
+            for (METDepartments.Department displayDepartment : departmentList)
             {
                 departmentComboBox.addItem(displayDepartment);
             }
         }
-
 
         @Override
         public void onFailure(Call<METDepartments> call, Throwable t)
@@ -82,8 +103,9 @@ public class METController
         @Override
         public void onResponse(Call<METObjectIds> call, Response<METObjectIds> response)
         {
-           objectIdArrayList =  response.body().objectIDs;
-           objectDataCallback.requestData(objectIdArrayList.get(0));
+            objectIdArrayList = response.body().objectIDs;
+            //call the first object
+            objectDataCallback.requestData(objectIdArrayList.get(0));
         }
 
         @Override
@@ -105,17 +127,31 @@ public class METController
         public void onResponse(Call<METObjectData> call, Response<METObjectData> response)
         {
             metObjectData = response.body();
-            /*
-            todo
-            set frame variables an necessary.
-             */
+            displayObjectData();
+        }
+
+        private void displayObjectData()
+        {
+            //set image
             try
             {
-                objectImageView.setImage(metObjectData.primaryImage);
-            } catch (MalformedURLException e)
+                //set imageView
+                objectImageView.setImage(metObjectData.getPrimaryImage());
+                //set imageLabel
+                objectImageLabel.setIcon(objectImageView.getImageIcon());
+            } catch (MalformedURLException | NoImageException e)
             {
-                e.printStackTrace();
+                objectImageLabel.setText(e.getMessage());
             }
+
+            //set other data
+            objectIdLabel.setText("Object Id: " + Integer.toString(metObjectData.getObjectID()));
+            objectTitleLabel.setText(metObjectData.getTitle());
+            objectCultureLabel.setText("Culture" + metObjectData.getCulture());
+            objectArtistLabel.setText("Artist: " + metObjectData.getArtistDisplayName());
+            objectDateLabel.setText("Historical Data: "+ metObjectData.getObjectDate());
+
+
         }
 
         @Override

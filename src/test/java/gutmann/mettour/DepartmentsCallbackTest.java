@@ -19,7 +19,7 @@ public class DepartmentsCallbackTest
         METService service = Mockito.mock(METService.class);
         METObjectImageView objectImageView = Mockito.mock(METObjectImageView.class);
         JComboBox<METDepartments.Department> comboBox = Mockito.mock(JComboBox.class);
-        METController controller = new METController(service, objectImageView,comboBox);
+        METController controller = new METController(service, objectImageView,comboBox, objectImageLabel, objectIdLabel, objectIdLabel, objectArtistLabel, objectDateLabel);
         METController.DepartmentsCallback departmentsCallback = controller.departmentsCallback;
 
         Call<METDepartments> call = Mockito.mock(Call.class);
@@ -42,7 +42,7 @@ public class DepartmentsCallbackTest
         METService service = Mockito.mock(METService.class);
         METObjectImageView objectImageView = Mockito.mock(METObjectImageView.class);
         JComboBox<METDepartments.Department> comboBox = Mockito.mock(JComboBox.class);
-        METController controller = new METController(service, objectImageView, comboBox);
+        METController controller = new METController(service, objectImageView, comboBox, objectImageLabel, objectIdLabel, objectIdLabel, objectArtistLabel, objectDateLabel);
         METController.DepartmentsCallback departmentsCallback = controller.departmentsCallback;
         //a mocked METDepartment class
         METDepartments departments = Mockito.mock(METDepartments.class);
