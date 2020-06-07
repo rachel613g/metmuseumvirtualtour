@@ -6,6 +6,7 @@ import retrofit2.Response;
 
 import javax.swing.*;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class METController
@@ -16,7 +17,7 @@ public class METController
     ObjectIdsCallback objectIdsCallback;
     ObjectDataCallback objectDataCallback;
 
-    private METObjectIds metObjectIds;
+    private ArrayList<Integer> objectIdArrayList;
     private METObjectData metObjectData;
 
     JComboBox<METDepartments.Department> departmentComboBox;
@@ -71,6 +72,8 @@ public class METController
 
     class ObjectIdsCallback implements Callback<METObjectIds>
     {
+
+
         public void requestData(int departmentId)
         {
             service.getObjectIdsInDepartment(departmentId).enqueue(this);
@@ -79,9 +82,8 @@ public class METController
         @Override
         public void onResponse(Call<METObjectIds> call, Response<METObjectIds> response)
         {
-            metObjectIds = response.body();
-
-            objectDataCallback.requestData(metObjectIds.objectIDs.get(0));
+           objectIdArrayList =  response.body().objectIDs;
+           objectDataCallback.requestData(objectIdArrayList.get(0));
         }
 
         @Override
@@ -93,7 +95,6 @@ public class METController
 
     class ObjectDataCallback implements Callback<METObjectData>
     {
-
 
         public void requestData(int objectId)
         {

@@ -36,6 +36,8 @@ public class METFrame extends JFrame
         //select department actionListener
         departmentJComboBox.addActionListener(actionEvent -> getSelectedDepartment());
 
+        //display Object Data
+
     }
 
     private void getSelectedDepartment()
