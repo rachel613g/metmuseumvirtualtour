@@ -26,6 +26,11 @@ public class METController
     private int counter = 0;
     private ArrayList<Integer> objectIdArrayList;
     private METObjectData metObjectData;
+    private String objectImageURL;
+    private String objectTitleString;
+    private String objectCultureString;
+    private String objectArtistString;
+    private String objectDateString;
 
     JComboBox<METDepartments.Department> departmentComboBox;
 
@@ -129,7 +134,11 @@ public class METController
         @Override
         public void onResponse(Call<METObjectData> call, Response<METObjectData> response)
         {
-            metObjectData = response.body();
+            objectImageURL = response.body().getPrimaryImage();
+            objectTitleString = response.body().getTitle();
+            objectCultureString = response.body().getCulture();
+            objectArtistString = response.body().getArtistDisplayName();
+            objectDateString = response.body().getObjectDate();
             displayObjectData();
             displayObjectImage();
         }
@@ -140,7 +149,7 @@ public class METController
             try
             {
                 //set imageView
-                objectImageView.setImage(metObjectData.getPrimaryImage());
+                objectImageView.setImage(objectImageURL);
                 //set imageLabel
                 objectImageLabel.setIcon(objectImageView.getImageIcon());
             } catch (NoImageException | MalformedURLException e)
@@ -153,10 +162,10 @@ public class METController
         {
             //set other data
             objectIdLabel.setText("Object Id: " + Integer.toString(objectId));
-            objectTitleLabel.setText(metObjectData.getTitle());
-            objectCultureLabel.setText("Culture: " + metObjectData.getCulture());
-            objectArtistLabel.setText("Artist: " + metObjectData.getArtistDisplayName());
-            objectDateLabel.setText("Historical Data: "+ metObjectData.getObjectDate());
+            objectTitleLabel.setText(objectTitleString);
+            objectCultureLabel.setText("Culture: " + objectCultureString);
+            objectArtistLabel.setText("Artist: " + objectArtistString);
+            objectDateLabel.setText("Historical Data: "+ objectDateString);
         }
 
         @Override

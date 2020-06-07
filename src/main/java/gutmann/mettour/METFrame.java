@@ -68,9 +68,6 @@ public class METFrame extends JFrame
         //add departmentsJComboBox to frame
         controller.departmentsCallback.requestData();
 
-
-
-
         //select department actionListener
         selectDepartmentButton.addActionListener(actionEvent -> getSelectedDepartment());
 

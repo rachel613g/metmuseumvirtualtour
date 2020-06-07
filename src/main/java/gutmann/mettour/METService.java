@@ -10,7 +10,7 @@ public interface METService
     @GET("departments")
     Call<METDepartments> getListOfDepartments();
 
-    @GET("objects?departmentIds=")
+    @GET("objects?")
     Call<METObjectIds> getObjectIdsInDepartment(@Query("departmentId")int departmentId);
 
     @GET("objects/{objectId}")
