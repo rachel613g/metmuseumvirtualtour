@@ -1,13 +1,14 @@
 package gutmann.mettour;
 
+
 import org.junit.Test;
 import org.mockito.Mockito;
 import retrofit2.Call;
 import retrofit2.Response;
-
 import javax.swing.*;
-
-import static org.junit.Assert.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import static org.mockito.Mockito.*;
 
 public class DepartmentsCallbackTest
@@ -16,10 +17,20 @@ public class DepartmentsCallbackTest
     public void requestData()
     {
         //given
+        //an instantiated controller
+        METFrame frame = Mockito.mock(METFrame.class);
         METService service = Mockito.mock(METService.class);
-        METObjectImageView objectImageView = Mockito.mock(METObjectImageView.class);
+        METObjectImageIconView objectImageView = Mockito.mock(METObjectImageIconView.class);
         JComboBox<METDepartments.Department> comboBox = Mockito.mock(JComboBox.class);
-        METController controller = new METController(service, objectImageView,comboBox, objectImageLabel, objectIdLabel, objectIdLabel, objectArtistLabel, objectDateLabel);
+        JLabel objectImageLabel = Mockito.mock(JLabel.class);
+        JLabel noImageLabel = Mockito.mock(JLabel.class);
+        JLabel objectIdLabel = Mockito.mock(JLabel.class);
+        JLabel objectTitleLabel = Mockito.mock(JLabel.class);
+        JLabel objectCultureLabel = Mockito.mock(JLabel.class);
+        JLabel objectArtistLabel = Mockito.mock(JLabel.class);
+        JLabel objectDateLabel = Mockito.mock(JLabel.class);
+        METController controller = new METController(frame, service, objectImageView, comboBox,
+                noImageLabel, objectImageLabel, objectIdLabel, objectTitleLabel, objectCultureLabel, objectArtistLabel, objectDateLabel);
         METController.DepartmentsCallback departmentsCallback = controller.departmentsCallback;
 
         Call<METDepartments> call = Mockito.mock(Call.class);
@@ -39,28 +50,37 @@ public class DepartmentsCallbackTest
     {
         //given
         //an instantiated controller
+        METFrame frame = Mockito.mock(METFrame.class);
         METService service = Mockito.mock(METService.class);
-        METObjectImageView objectImageView = Mockito.mock(METObjectImageView.class);
+        METObjectImageIconView objectImageView = Mockito.mock(METObjectImageIconView.class);
         JComboBox<METDepartments.Department> comboBox = Mockito.mock(JComboBox.class);
-        METController controller = new METController(service, objectImageView, comboBox, objectImageLabel, objectIdLabel, objectIdLabel, objectArtistLabel, objectDateLabel);
+        JLabel objectImageLabel = Mockito.mock(JLabel.class);
+        JLabel noImageLabel = Mockito.mock(JLabel.class);
+        JLabel objectIdLabel = Mockito.mock(JLabel.class);
+        JLabel objectTitleLabel = Mockito.mock(JLabel.class);
+        JLabel objectCultureLabel = Mockito.mock(JLabel.class);
+        JLabel objectArtistLabel = Mockito.mock(JLabel.class);
+        JLabel objectDateLabel = Mockito.mock(JLabel.class);
+        METController controller = new METController(frame, service, objectImageView, comboBox,
+                noImageLabel, objectImageLabel, objectIdLabel, objectTitleLabel, objectCultureLabel, objectArtistLabel, objectDateLabel);
         METController.DepartmentsCallback departmentsCallback = controller.departmentsCallback;
-        //a mocked METDepartment class
-        METDepartments departments = Mockito.mock(METDepartments.class);
 
         //call and response objects (arguments for departmentsCallback.onResponse() method)
         Call<METDepartments> call = Mockito.mock(Call.class);
         Response<METDepartments> response = Mockito.mock(Response.class);
+        //list to save response.body().departments
+        //Why can't this METDepartments.Department be made into a list?!
+        //it works in the real world
+        List<METDepartments.Department> departmentList = new ArrayList<>() ;
 
-        doReturn(departments).when(response).body();
+        doReturn(departmentList).when(response).body();
         //a stubbed version for departments.getArrayOfDisplayNames() method
-        String [] arrayOfDisplayNames = new String[]{"Art", "More Art", "Even More Art"};
-        when(departments.getArrayOfDisplayNames()).thenReturn(arrayOfDisplayNames);
 
         //when
         departmentsCallback.onResponse(call,response);
 
         //then
-        verify(departments).getArrayOfDisplayNames();
-        assertNotNull(controller.departmentComboBox);
+        verify(controller.departmentsCallback).populateJComboBox(departmentList);
+
     }
 }
