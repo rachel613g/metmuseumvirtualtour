@@ -15,3 +15,4 @@ This application uses [Retrofit](https://square.github.io/retrofit/) to access t
 View artifacts in a department.
 ![Alt](screenshots/metscreenshot2.PNG "view artifacts.")
 
+Download [executable jar file](https://github.com/rachel613g/metmuseumvirtualtour/tree/master/build/libs "Executable jar file").
