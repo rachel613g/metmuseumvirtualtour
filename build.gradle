@@ -2,13 +2,23 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
+group 'MET_TOUR'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "gutmann.mettour.METFrame"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 dependencies {

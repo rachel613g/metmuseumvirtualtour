@@ -59,16 +59,10 @@ public class METController
         objectDataCallback = new ObjectDataCallback();
     }
 
-    public JComboBox<METDepartments.Department> getDepartmentComboBox()
-    {
-        return departmentComboBox;
-    }
-
     public ArrayList<Integer> getObjectIdArrayList()
     {
         return objectIdArrayList;
     }
-
 
     class DepartmentsCallback implements Callback<METDepartments>
     {
@@ -98,13 +92,10 @@ public class METController
         {
             t.printStackTrace();
         }
-
     }
 
     class ObjectIdsCallback implements Callback<METObjectIds>
     {
-
-
         public void requestData(int departmentId)
         {
             service.getObjectIdsInDepartment(departmentId).enqueue(this);
