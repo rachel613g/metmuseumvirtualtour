@@ -35,6 +35,7 @@ public class METFrame extends JFrame
         setSize(new Dimension(800, 800));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setTitle("MET Museum Tour");
 
         jComboBoxPanel = new JPanel(new FlowLayout());
         departmentJComboBox = new JComboBox<>();
