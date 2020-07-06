@@ -11,7 +11,7 @@ public interface METService
     Call<METDepartments> getListOfDepartments();
 
     @GET("public/collection/v1/objects?")
-    Call<METObjectIds> getObjectIdsInDepartment(@Query("departmentId")int departmentId);
+    Call<METObjectIds> getObjectIdsInDepartment(@Query("departmentIds")int departmentId);
 
     @GET("public/collection/v1/objects/{objectId}")
     Call<METObjectData> getMetaData(@Path("objectId") int objectId);
